@@ -3,6 +3,7 @@ package com.nascimento.dio.services;
 import com.nascimento.dio.client.WeatherApiClient;
 import com.nascimento.dio.model.CurrentConditions;
 import com.nascimento.dio.model.WeatherData;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ public class WeatherService {
         this.client = weatherApiClient;
     }
 
+    @Cacheable(value = "weatherCache", key = "#cidade")
     public WeatherData getWeatherByCity(String cidade) {
 
         return client.getWeatherData(cidade);
