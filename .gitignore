@@ -36,3 +36,28 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Ignore application properties
+application.properties
+application-local.properties
+
+# Ignore IDE files
+.idea/
+
+# Ignore logs
+*.log
+
+# Ignore dependency directories
+/.mvn/
+.mvn/
+dependency-reduced-pom.xml
+
+# Ignore OS generated files
+Thumbs.db
+
+# Ignore Maven files
+*.jar
+*.war
+
+# Ignore test results
+test-results/
