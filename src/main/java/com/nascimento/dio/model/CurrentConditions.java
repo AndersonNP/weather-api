@@ -1,9 +1,10 @@
 package com.nascimento.dio.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalTime;
 
-public class CurrentConditions {
+public class CurrentConditions implements Serializable {
 
     LocalTime   datetime;
     BigDecimal  temp;

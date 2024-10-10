@@ -1,8 +1,9 @@
 package com.nascimento.dio.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class WeatherData {
+public class WeatherData implements Serializable {
 
     BigDecimal          latitude;
     BigDecimal          longitude;

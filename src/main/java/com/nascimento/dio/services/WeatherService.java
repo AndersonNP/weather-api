@@ -18,7 +18,7 @@ public class WeatherService {
         this.client = weatherApiClient;
     }
 
-    //@Cacheable(value = "weatherCache", key = "#cidade")
+    @Cacheable(value = "weatherCache", key = "#cidade")
     public WeatherData getWeatherByCity(String cidade) {
 
         return client.getWeatherData(cidade);
