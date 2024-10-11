@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Weather API</title>
+    <!-- Incluindo Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM7xW60lmH5qKnG1Ti+G1RIzP3Xn9Th+P8T1jX" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0; /* Cor de fundo suave */
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form {
+            background-color: #ffffff; /* Fundo branco para o formulário */
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            width: 300px; /* Largura do formulário */
+        }
+
+        label {
+            margin-bottom: 10px;
+            display: block; /* Para que o label ocupe uma linha inteira */
+            font-weight: bold; /* Texto em negrito */
+        }
+
+        input[type="text"] {
+            width: 100%; /* Preenche a largura do formulário */
+            padding: 10px;
+            border: 1px solid #ccc; /* Borda suave */
+            border-radius: 4px; /* Bordas arredondadas */
+            box-sizing: border-box; /* Inclui padding e border no total */
+            margin-bottom: 20px; /* Espaço entre o campo de texto e o botão */
+        }
+
+        button {
+            background-color: #007bff; /* Cor do botão */
+            color: white; /* Cor do texto do botão */
+            padding: 10px 15px;
+            border: none; /* Sem borda */
+            border-radius: 4px; /* Bordas arredondadas */
+            cursor: pointer; /* Cursor em forma de mão ao passar o mouse */
+            width: 100%; /* Botão preenche a largura do formulário */
+            font-size: 16px; /* Tamanho da fonte */
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Cor do botão ao passar o mouse */
+        }
+
+        .result-container {
+            margin-top: 20px; /* Espaço entre o formulário e os dados do clima */
+            text-align: center; /* Centraliza o texto das condições climáticas */
+            display: flex;
+            flex-direction: column; /* Para colocar ícones e texto em coluna */
+            align-items: center; /* Centraliza os ícones */
+            padding: 10px; /* Padding para a área de resultados */
+            background-color: #ffffff; /* Fundo branco para resultados */
+            border-radius: 5px; /* Bordas arredondadas */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            width: 300px; /* Largura do resultado */
+            margin-left: auto; /* Para alinhar ao centro */
+            margin-right: auto; /* Para alinhar ao centro */
+        }
+
+        .result-container h2 {
+            margin: 0 0 10px; /* Espaçamento entre o título e os dados */
+        }
+
+        .weather-icon {
+            font-size: 48px; /* Tamanho do ícone */
+            margin-bottom: 10px; /* Espaço entre o ícone e os dados */
+        }
+
+    </style>
+</head>
+<body>
+<div style="display: flex; flex-direction: column; align-items: center;">
+
+    <h1>Consultar Clima</h1>
+    <form action="#" th:action="@{/weather}" th:object="${city}" method="post">
+        <label for="city">Cidade:</label>
+        <input type="text" id="city" th:field="*{name}" placeholder="Digite a cidade"/>
+        <button type="submit">Buscar</button>
+    </form>
+
+    <div th:if="${weatherData}" class="result-container">
+        <i class="fas fa-sun weather-icon"></i> <!-- Ícone de sol -->
+        <h2>Condições atuais:</h2>
+        <p>Temperatura: <span th:text="${weatherData.currentConditions.temp}"></span> °C</p>
+        <p>Sensação Térmica: <span th:text="${weatherData.currentConditions.feelslike}"></span> °C</p>
+    </div>
+</div>
+
+</body>
+</html>

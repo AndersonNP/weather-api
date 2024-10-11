@@ -1,15 +1,21 @@
 package com.nascimento.dio.controllers;
 
-import com.nascimento.dio.client.WeatherApiClient;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.nascimento.dio.model.City;
 import com.nascimento.dio.model.WeatherData;
 import com.nascimento.dio.services.WeatherService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
-@RestController
-@RequestMapping("/api/weather")
+@Controller
+@SessionAttributes("weatherData")
 public class WeatherController {
 
     private final WeatherService service;
@@ -17,15 +23,24 @@ public class WeatherController {
     public WeatherController(WeatherService weatherService) {
         this.service = weatherService;
     }
-    @GetMapping("/up")
-    public String isUp(){
-        return "UP";
+    @RequestMapping("/")
+    public String index(Model model){
+        model.addAttribute("city", new City());
+        return "index";
     }
 
-    @GetMapping("/{cidade}")
-    public WeatherData getWeatherByCity(@PathVariable String cidade){
+    @PostMapping("/weather")
+    @Cacheable(value = "weatherCache", key = "#city.name")
+    public String getWeather(@ModelAttribute City city, Model model){
+        WeatherData weatherData = service.getWeatherByCity(city.getName());
+        model.addAttribute("weatherData", weatherData);
+        return "index";
+    }
 
-        return service.getWeatherByCity(cidade);
+    @Scheduled(fixedRate = 15000)
+    @CacheEvict(value = "weatherCache", allEntries = true)
+    public void clearCache(){
+        System.out.println("Cache limpo");
     }
 
 }
